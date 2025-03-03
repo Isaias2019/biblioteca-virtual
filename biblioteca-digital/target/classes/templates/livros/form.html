@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adicionar Novo Livro - Biblioteca Digital</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2A9D8F;
+            --secondary-color: #264653;
+            --background-color: #E5F6F3;
+            --text-color: #2C3E50;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .form-title {
+            color: var(--secondary-color);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-label {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(42, 157, 143, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #238477;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .preview-container {
+            width: 200px;
+            height: 300px;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .char-counter {
+            color: #6c757d;
+            font-size: 0.875rem;
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/livros">Biblioteca Digital</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <h1 class="form-title">Adicionar Novo Livro</h1>
+
+            <!-- Mensagem de erro geral -->
+            <div th:if="${erro}" class="alert alert-danger" role="alert" th:text="${erro}"></div>
+            
+            <form th:action="@{/livros}" method="post" enctype="multipart/form-data" th:object="${livro}">
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="titulo" th:field="*{titulo}" 
+                           required maxlength="60" oninput="countChars(this, 'titulo-counter', 60)">
+                    <div class="char-counter" id="titulo-counter">0/60</div>
+                    <div class="error-message" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="autor" class="form-label">Autor</label>
+                    <input type="text" class="form-control" id="autor" th:field="*{autor}" 
+                           required maxlength="30" oninput="countChars(this, 'autor-counter', 30)">
+                    <div class="char-counter" id="autor-counter">0/30</div>
+                    <div class="error-message" th:if="${#fields.hasErrors('autor')}" th:errors="*{autor}"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea class="form-control" id="descricao" th:field="*{descricao}" rows="3"
+                              required maxlength="80" oninput="countChars(this, 'descricao-counter', 80)"></textarea>
+                    <div class="char-counter" id="descricao-counter">0/80</div>
+                    <div class="error-message" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="arquivoCapa" class="form-label">Capa do Livro</label>
+                    <input type="file" class="form-control" id="arquivoCapa" name="arquivoCapa" 
+                           accept="image/*" required onchange="previewImage(this);">
+                    <div class="preview-container mt-2">
+                        <img id="preview" class="preview-image" src="#" alt="Preview da capa">
+                    </div>
+                    <div class="error-message" th:if="${#fields.hasErrors('capa')}" th:errors="*{capa}"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="arquivoLivro" class="form-label">Arquivo do Livro</label>
+                    <input type="file" class="form-control" id="arquivoLivro" name="arquivoLivro" 
+                           accept=".pdf,.epub,.mobi" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('conteudo')}" th:errors="*{conteudo}"></div>
+                </div>
+                
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a href="/livros" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function countChars(input, counterId, maxLength) {
+            var current = input.value.length;
+            document.getElementById(counterId).textContent = current + '/' + maxLength;
+        }
+
+        // Inicializar contadores
+        window.onload = function() {
+            countChars(document.getElementById('titulo'), 'titulo-counter', 60);
+            countChars(document.getElementById('autor'), 'autor-counter', 30);
+            countChars(document.getElementById('descricao'), 'descricao-counter', 80);
+        }
+    </script>
+</body>
+</html> 

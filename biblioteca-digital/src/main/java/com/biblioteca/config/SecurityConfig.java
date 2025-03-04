@@ -33,7 +33,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/livros/novo")
+                .defaultSuccessUrl("/livros", true)
                 .permitAll()
             )
             .logout(logout -> logout
@@ -44,8 +44,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**")
             )
-            .headers(headers -> headers.frameOptions().disable())
-            .defaultSuccessUrl("/livros", true);
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.disable())
+            );
 
         return http.build();
     }

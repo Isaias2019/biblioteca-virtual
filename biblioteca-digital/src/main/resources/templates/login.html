@@ -11,10 +11,77 @@
             background-color: #f8f9fa;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
+            padding: 40px 0;
+        }
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .contact-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .contact-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .contact-description {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .email-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+        .email-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,176,155,0.3);
+            color: white;
+        }
+        .email-button i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .divider {
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #6c757d;
+            position: relative;
+            z-index: 2;
         }
         .login-container {
             max-width: 400px;
-            margin: 100px auto;
+            margin: 0 auto;
             padding: 30px;
             background-color: white;
             border-radius: 15px;
@@ -70,10 +137,32 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container page-container">
+        <!-- Seção de Contato -->
+        <div class="contact-container">
+            <h2 class="contact-title">Contribua com Nossa Biblioteca!</h2>
+            <p class="contact-description">
+                Você tem um livro digital que gostaria de compartilhar com nossa comunidade? 
+                Entre em contato conosco! Após uma breve análise, seu livro poderá fazer parte 
+                do nosso acervo e beneficiar diversos leitores.
+            </p>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=isabrisa34@gmail.com&su=Novo Livro para Biblioteca Digital&body=Olá! Gostaria de contribuir com um livro para a biblioteca digital." 
+               target="_blank" 
+               class="email-button">
+                <i class="fas fa-paper-plane"></i>
+                Enviar Livro por Email
+            </a>
+            <p class="small text-muted mt-3">
+                Abrirá diretamente no Gmail. Se preferir, envie para: isabrisa34@gmail.com
+            </p>
+        </div>
+
+        <div class="divider">
+            <span>Área Administrativa</span>
+        </div>
+
+        <!-- Container de Login -->
         <div class="login-container">
-            <h2 class="login-title">Área Administrativa</h2>
-            
             <div th:if="${param.error}" class="alert alert-danger">
                 Usuário ou senha inválidos.
             </div>

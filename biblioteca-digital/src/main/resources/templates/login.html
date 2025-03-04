@@ -17,6 +17,51 @@
             max-width: 800px;
             margin: 0 auto;
         }
+        .biblioteca-banner {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .biblioteca-banner:hover {
+            transform: translateY(-5px);
+        }
+        .banner-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .banner-text {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        .banner-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 40px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .banner-button:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .banner-button i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
         .contact-container {
             background: white;
             padding: 30px;
@@ -138,6 +183,16 @@
 </head>
 <body>
     <div class="container page-container">
+        <!-- Banner da Biblioteca -->
+        <div class="biblioteca-banner">
+            <h1 class="banner-title">Bem-vindo à Biblioteca Digital</h1>
+            <p class="banner-text">Explore nossa coleção de livros digitais gratuitamente!</p>
+            <a href="/livros" class="banner-button">
+                <i class="fas fa-book-reader"></i>
+                Acessar Biblioteca
+            </a>
+        </div>
+
         <!-- Seção de Contato -->
         <div class="contact-container">
             <h2 class="contact-title">Contribua com Nossa Biblioteca!</h2>

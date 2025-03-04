@@ -27,13 +27,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/livros", "/livros/download/**", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/login", "/", "/livros", "/livros/download/**", "/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/livros", true)
+                .defaultSuccessUrl("/livros/novo", true)
                 .permitAll()
             )
             .logout(logout -> logout

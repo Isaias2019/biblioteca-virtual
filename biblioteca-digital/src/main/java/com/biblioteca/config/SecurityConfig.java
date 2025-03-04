@@ -1,3 +1,4 @@
+// SecurityConfig.java
 package com.biblioteca.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +36,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/livros/novo", true)
+                .defaultSuccessUrl("/livros", true) // Agora redireciona para /livros
                 .permitAll()
             )
             .logout(logout -> logout
@@ -68,4 +69,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-} 
+}

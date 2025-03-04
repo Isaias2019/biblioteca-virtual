@@ -38,13 +38,14 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/livros")
                 .permitAll()
             )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**")
             )
-            .headers(headers -> headers.frameOptions().disable());
+            .headers(headers -> headers.frameOptions().disable())
+            .defaultSuccessUrl("/livros", true);
 
         return http.build();
     }

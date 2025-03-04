@@ -3,3 +3,5 @@ com\biblioteca\repository\LivroRepository.class
 com\biblioteca\model\Livro.class
 com\biblioteca\service\LivroService.class
 com\biblioteca\controller\LivroController.class
+com\biblioteca\controller\LoginController.class
+com\biblioteca\config\SecurityConfig.class

@@ -33,7 +33,7 @@ public class Livro {
     private String tipoArquivo;
     
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] capa;
     
     @Lob

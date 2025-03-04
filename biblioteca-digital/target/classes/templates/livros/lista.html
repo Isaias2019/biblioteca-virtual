@@ -180,7 +180,13 @@
             <div class="row">
                 <div th:each="livro : ${livros}" class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img th:src="@{'/livros/capa/' + ${livro.id}}" class="card-img-top" alt="Capa do livro">
+                        <div class="img-container" style="height: 300px; overflow: hidden;">
+                            <img th:src="@{'/livros/capa/' + ${livro.id}}"
+                                 th:onerror="this.src='https://placehold.co/400x600/2A9D8F/FFFFFF?text=Sem+Imagem'"
+                                 class="card-img-top"
+                                 alt="Capa do livro"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title" th:text="${livro.titulo}">Título do Livro</h5>
                             <p class="card-text">Autor: <span th:text="${livro.autor}">Autor do Livro</span></p>
@@ -220,7 +226,13 @@
                             html += `
                                 <div class="col-md-4 mb-4">
                                     <div class="card h-100">
-                                        <img src="/livros/capa/${livro.id}" class="card-img-top" alt="Capa do livro">
+                                        <div class="img-container" style="height: 300px; overflow: hidden;">
+                                            <img src="/livros/capa/${livro.id}"
+                                                 onerror="this.src='https://placehold.co/400x600/2A9D8F/FFFFFF?text=Sem+Imagem'"
+                                                 class="card-img-top"
+                                                 alt="Capa do livro"
+                                                 style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
                                         <div class="card-body">
                                             <h5 class="card-title">${livro.titulo}</h5>
                                             <p class="card-text">Autor: ${livro.autor}</p>

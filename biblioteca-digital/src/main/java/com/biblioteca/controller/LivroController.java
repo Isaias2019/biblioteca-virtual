@@ -70,8 +70,20 @@ public class LivroController {
         }
         
         try {
+            // Validar e processar a imagem da capa
+            String contentType = arquivoCapa.getContentType();
+            if (contentType != null && (contentType.equals("image/jpeg") || 
+                contentType.equals("image/png") || 
+                contentType.equals("image/gif"))) {
+                
+                livro.setCapa(arquivoCapa.getBytes());
+            } else {
+                model.addAttribute("erro", "Formato de imagem inválido. Use JPEG, PNG ou GIF.");
+                return "livros/form";
+            }
+
+            // Processar o arquivo do livro
             livro.setConteudo(arquivoLivro.getBytes());
-            livro.setCapa(arquivoCapa.getBytes());
             livro.setNomeArquivo(arquivoLivro.getOriginalFilename());
             livro.setTipoArquivo(arquivoLivro.getContentType());
             
@@ -104,14 +116,41 @@ public class LivroController {
     public ResponseEntity<byte[]> mostrarCapa(@PathVariable Long id) {
         return livroRepository.findById(id)
                 .map(livro -> {
+                    if (livro.getCapa() == null || livro.getCapa().length == 0) {
+                        throw new RuntimeException("Imagem não encontrada");
+                    }
+
                     HttpHeaders headers = new HttpHeaders();
-                    headers.setCacheControl("max-age=3600");
-                    headers.setContentType(MediaType.parseMediaType("image/jpeg"));
+                    headers.setCacheControl("no-cache, no-store, must-revalidate");
+                    headers.setPragma("no-cache");
+                    headers.setExpires(0L);
+                    
+                    // Detectar o tipo de imagem baseado nos bytes
+                    String contentType = detectImageType(livro.getCapa());
+                    headers.setContentType(MediaType.parseMediaType(contentType));
+                    
                     return ResponseEntity.ok()
                             .headers(headers)
                             .body(livro.getCapa());
                 })
                 .orElseThrow(() -> new RuntimeException("Capa não encontrada"));
+    }
+
+    private String detectImageType(byte[] imageBytes) {
+        if (imageBytes == null || imageBytes.length < 4) {
+            return "image/jpeg";
+        }
+        
+        // Verificar assinaturas de arquivo
+        if (imageBytes[0] == (byte) 0xFF && imageBytes[1] == (byte) 0xD8) {
+            return "image/jpeg";
+        } else if (imageBytes[0] == (byte) 0x89 && imageBytes[1] == (byte) 0x50) {
+            return "image/png";
+        } else if (imageBytes[0] == (byte) 0x47 && imageBytes[1] == (byte) 0x49) {
+            return "image/gif";
+        }
+        
+        return "image/jpeg";
     }
 
     @GetMapping("/buscar")

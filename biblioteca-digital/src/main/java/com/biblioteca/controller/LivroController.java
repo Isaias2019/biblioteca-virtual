@@ -105,7 +105,8 @@ public class LivroController {
         return livroRepository.findById(id)
                 .map(livro -> {
                     HttpHeaders headers = new HttpHeaders();
-                    headers.setContentType(MediaType.IMAGE_JPEG);
+                    headers.setCacheControl("max-age=3600");
+                    headers.setContentType(MediaType.parseMediaType("image/jpeg"));
                     return ResponseEntity.ok()
                             .headers(headers)
                             .body(livro.getCapa());

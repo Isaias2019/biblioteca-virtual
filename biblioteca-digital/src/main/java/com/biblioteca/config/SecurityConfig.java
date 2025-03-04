@@ -27,9 +27,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/livros", "/livros/capa/**", "/livros/download/**", "/css/**", "/js/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/login").permitAll()
+                .requestMatchers("/livros", "/livros/capa/**", "/livros/download/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/error/**").permitAll()
+                .requestMatchers("/login", "/error").permitAll()
                 .requestMatchers("/livros/novo", "/livros/adicionar").authenticated()
                 .anyRequest().permitAll()
             )
@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**")
+                .ignoringRequestMatchers("/h2-console/**", "/livros/novo", "/livros/adicionar")
             )
             .headers(headers -> headers
                 .frameOptions(frame -> frame.disable())
